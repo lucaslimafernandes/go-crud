@@ -14,12 +14,15 @@ type Car struct {
 	Price float64
 }
 
-var db *sql.DB
+// TODO
+// Check empty atributes of Car
+
+var Db *sql.DB
 
 func InitDB(databasePath string) error {
 
 	var err error
-	db, err = sql.Open("sqlite3", databasePath)
+	Db, err = sql.Open("sqlite3", databasePath)
 	if err != nil {
 		return err
 	}
@@ -30,7 +33,7 @@ func InitDB(databasePath string) error {
 
 func (c *Car) Create() error {
 
-	_, err := db.Exec("INSERT INTO cars (brand, model, year, price) VALUES (?, ?, ?, ?)", c.Brand, c.Model, c.Year, c.Price)
+	_, err := Db.Exec("INSERT INTO cars (brand, model, year, price) VALUES (?, ?, ?, ?)", c.Brand, c.Model, c.Year, c.Price)
 	if err != nil {
 		return err
 	}
