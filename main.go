@@ -16,6 +16,7 @@ func main() {
 	defer models.Db.Close()
 
 	http.HandleFunc("/create", handlers.CreateItem)
+	http.HandleFunc("/list", handlers.List)
 
 	log.Fatal(http.ListenAndServe(":5050", nil))
 

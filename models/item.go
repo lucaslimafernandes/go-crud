@@ -6,6 +6,8 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
+type ListCars []Car
+
 type Car struct {
 	ID    int
 	Brand string
@@ -38,4 +40,24 @@ func (c *Car) Create() error {
 		return err
 	}
 	return nil
+}
+
+func (l *ListCars) ListAll() error {
+
+	rows, err := Db.Query("SELECT * FROM cars;")
+	if err != nil {
+		return err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var car Car
+		err := rows.Scan(&car.ID, &car.Brand, &car.Model, &car.Year, &car.Price)
+		if err != nil {
+			return err
+		}
+		*l = append(*l, car)
+	}
+
+	return rows.Err()
 }
